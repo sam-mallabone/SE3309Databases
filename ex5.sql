@@ -11,7 +11,7 @@ INNER JOIN user ON user.ID = outgoing.userID
 WHERE user.age > 35 AND book.genre = 'romance'
 ORDER BY user.name;
 
--- Get users under the age of 35 with overdue books where they owe more than one dollar and haven't paid yet
+-- Get amount of users under the age of 35 with overdue books where they owe more than one dollar and haven't paid yet
 SELECT COUNT(*) as UsersWithOverdueBooks
 FROM returned 
 INNER JOIN payment ON returned.borrowID = payment.borrowID
@@ -37,4 +37,4 @@ WHERE author.authorName LIKE 'an%' ORDER BY book.title DESC;
 SELECT user.name, user.email, user.phoneNumber, MAX(payment.amountOwed) as OwedToLibrary
 FROM returned 
 INNER JOIN payment ON returned.borrowID = payment.borrowID
-INNER JOIN user ON returned.userID = user.ID
+INNER JOIN user ON returned.userID = user.ID;
