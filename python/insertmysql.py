@@ -2,12 +2,31 @@ import MySQLdb
 import csv
 from faker import Faker
 import random
+
+
+# NOTE: This file was used to populate our SE3309 database. We used three different sources of
+# information to load data into the database (which is called librarydatabase). We used two
+# csv files with one containing first names and the other containing last names. We then
+# used a library called Faker to generate fake names and fake text. To use faker
+# you need to install it's library as it is not included in the standard interpreter library.
+# To insert this data into the database, we would uncomment sections of the file and run it to
+# add the tuples. We used the MySQLdb library to connect to our database and to execute the queries.
+# This is how we uploaded all our data into the database. You can see in certain sections of the
+# script where we ran different inserts and if properly uncommented it would insert more tuples into a table in the db.
+
+# tl;dr used two csv's and a downloadable library called faker to generate data.
+# then ran queries on our database using MySQLdb, the queries are commented out and there are several
+# sections of the script that were queries to insert into tables in the db
+
+
+
 # f = open('CSV_Database_of_Last_Names.csv')
 # d = open('CSV_Database_of_First_Names.csv')
 #
 # reader = csv.reader(f)
 # reader2 = csv.reader(d)
 genre = ['horror', 'mystery', 'fiction', 'non-fiction', 'romance', 'comedy', 'scientific', 'adventure', 'satire']
+# create a connection to the database and create the cursor
 db = MySQLdb.connect("localhost", "root", "root", "librarydatabase")
 cursor = db.cursor()
 isbn = 9106736020000
@@ -99,8 +118,11 @@ age = 85
 #     print(mystr)
 #     cursor.execute(mystr)
 #
+
+# commit the changes to the database, this will actually update the database with the queries we ran
 db.commit()
 
+# close the db connection
 db.close()
 
 
