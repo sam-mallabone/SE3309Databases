@@ -129,6 +129,27 @@ router.route('/getPopularBooks')
 		});
 
 	});
+	router.route('/createUser')
+		.post(function(req,res){
+			var query = `INSERT INTO user VALUES(
+				0,
+				"${req.body.name}",
+				"${req.body.email}",
+				"${req.body.age}",
+				"${req.body.phone}",
+				 CURDATE(),
+				 DATE_ADD(CURDATE(), INTERVAL 1 YEAR)
+			);`
+			conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+		});
+
+		});
 
 
 
