@@ -10,7 +10,7 @@ var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'librarydatabase'
+    database: 'name'
 });
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -105,7 +105,32 @@ router.route('/getLibrarianId')
 			console.log(result);
 			res.send(result);
 		})
-	})
+	});
+
+router.route('/getPopularBooks')
+	
+	.post(function(req,res){
+		console.log(req.body.genre);
+		console.log("am i working");
+		var query = `SELECT book.title, 
+						author.authorName, 
+						book.genre 
+						FROM book INNER JOIN author on book.authorID = author.authorID 
+						INNER JOIN returned on returned.bookID = book.ISBN 
+						where returned.rating>3 AND book.genre = "${req.body.genre}" LIMIT 10;`;
+		console.log(query);
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+		});
+
+	});
+
+
 
 // global class variables
 // REGISTER OUR ROUTES -------------------------------

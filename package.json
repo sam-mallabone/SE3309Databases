@@ -10,11 +10,13 @@
   "author": "sam,jak,craig,matt",
   "license": "ISC",
   "dependencies": {
+    "@angular/cli": "^1.5.5",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "mongoose": "^4.13.5",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "typescript": "^2.6.2"
   },
   "repository": {
     "type": "git",
