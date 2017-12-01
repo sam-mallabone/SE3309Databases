@@ -11,7 +11,17 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
-    "mongoose": "^4.13.5"
-  }
+    "mongoose": "^4.13.5",
+    "mysql": "^2.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sam-mallabone/SE3309Databases.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sam-mallabone/SE3309Databases/issues"
+  },
+  "homepage": "https://github.com/sam-mallabone/SE3309Databases#readme"
 }

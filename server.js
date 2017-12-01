@@ -5,7 +5,7 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var mysql = require("mysql");
-
+var cors  = require('cors');
 var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -28,7 +28,7 @@ var mongoose = require('mongoose')
 // ROUTES
 // ======================================
 var router = express.Router();
-
+app.use(cors());
 router.use(function(req, res, next){
    // do logging
    console.log("I'm the middle man");
@@ -36,21 +36,22 @@ router.use(function(req, res, next){
 });
 
 
-
+conn.connect(function(err){
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log("ready to serve")
+        });
 
 router.get('/', function(req, res) {
     console.log("I'm the standard GET");
     res.json({ message: 'hooray! welcome to our api!' });   
 });
 
-router.route('/test')
+router.route('/allbooks')
     .get(function(req, res){
-        conn.connect(function(err){
-            if(err){
-                console.log(err);
-                return;
-            }
-            conn.query("SELECT * FROM user", function(err, result, fields) {
+        conn.query("SELECT * FROM book", function(err, result, fields) {
                 if(err){
                     console.log(err);
                     return;
@@ -59,8 +60,52 @@ router.route('/test')
                 console.log(result);
                 res.send({message: "I worked"})
             });
-        });
-    })
+    });
+
+router.route('/allwishlist')
+	.get(function(req, res){
+		conn.query("SELECT * FROM user", function(err, result, fields){
+			if(err){
+				res.send(err);
+				return;
+			}
+
+			console.log(result);
+			res.send(result);
+		})
+	})
+
+router.route('/getUserId')
+	.post(function(req, res){
+		console.log(req.body.name);
+		var query = "SELECT ID FROM user WHERE name='" + req.body.name + "' LIMIT 1;"
+		console.log(query)
+		conn.query(query, function(err, result, fields){
+			if(err){
+				res.send(err);
+				return;
+			}
+
+			console.log(result);
+			res.send(result);
+		})
+	})
+
+router.route('/getLibrarianId')
+	.post(function(req, res){
+		console.log(req.body.name);
+		var query = "SELECT staffID FROM employee WHERE name='" + req.body.name + "' LIMIT 1;"
+		console.log(query)
+		conn.query(query, function(err, result, fields){
+			if(err){
+				res.send(err);
+				return;
+			}
+
+			console.log(result);
+			res.send(result);
+		})
+	})
 
 // global class variables
 // REGISTER OUR ROUTES -------------------------------
