@@ -48,7 +48,7 @@ ORDER BY inventory;
  
  -- most popular genre that is currently taken out(could add stuff like in the last month but this is good for now)
 SELECT 
-    genre, COUNT(genre)
+    genre, COUNT(genre) as cnt
 FROM
     book
         INNER JOIN
@@ -64,3 +64,30 @@ INSERT INTO employee VALUES (55, DATE '2017-11-29', 100000, 'jterpak@lib.com', '
 SELECT * FROM employee WHERE employee.name = 'Jak Terpak';
 
 SELECT ID FROM user WHERE name='Sam Mallabone' LIMIT 1;
+
+SELECT 
+    user.ID,
+    user.name,
+    user.email,
+    DATEDIFF(CURDATE(), outgoing.expectedReturnDate) AS daysOverdue
+FROM
+    outgoing
+        INNER JOIN
+    user ON user.ID = outgoing.userID
+WHERE
+    outgoing.expectedReturnDate < CURDATE();
+    
+SELECT 
+    SUM(payment.amountOwed) AS MoneyOwed
+FROM
+    returned
+        INNER JOIN
+    user ON user.ID = returned.userID
+        INNER JOIN
+    payment ON returned.borrowID = payment.borrowID
+WHERE
+    user.ID = 2 AND payment.isPaid = FALSE;
+    
+describe book;
+select * from author;
+select authorID from author where authorName = "J.K. Rowling";
