@@ -212,14 +212,14 @@ router.route('/overdueUsers')
 	})
 
 router.route('/authorID')
-	.get(function(req, res){
+	.post(function(req, res){
 		console.log('author ID');
 		var query = `SELECT 
 						    authorID
 						FROM
 						    author
 						WHERE
-						    authorName = 'J.K. Rowling';`
+						    authorName = '${req.body.authorName}';`
 		conn.query(query,function(err, result, fields){
 			if(err){
 				console.log(err);
@@ -251,7 +251,7 @@ router.route('/getPopularBooks')
 		conn.query(query, function(err,result,fields){
 			if (err){
 				console.log(err);
-				res.send(err);
+				res.send(err); 
 			}
 			console.log(result);
 			res.send(result);
@@ -279,6 +279,107 @@ router.route('/createUser')
 			});
 
 		});
+
+router.route('/searchbooks')
+	.post(function(req, res) {
+		console.log(req.body.title);
+		console.log('searchbooks')
+		var query = `SELECT 
+						    *
+						FROM
+						    book
+						    	INNER JOIN
+    						author ON book.authorID = author.authorID
+						WHERE
+						    title LIKE '${req.body.title}%';`
+			conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+			});
+				
+	});
+
+router.route('/createbook')
+	.post(function(req, res) {
+		console.log('im in');
+		var query = `INSERT INTO book VALUES(
+						'${req.body.isbn}',
+					    '${req.body.title}',
+					    DATE '${req.body.publishingDate}',
+					    '${req.body.genre}',
+					    '${req.body.inventory}',
+					    '${req.body.authorID}'
+						);`
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+			});
+	})
+
+router.route('/updatebook')
+	.post(function(req, res){
+		console.log('im in1');
+		var query = `UPDATE book 
+						SET
+						title = '${req.body.title}',
+						 genre = '${req.body.genre}', 
+						 inventory = '${req.body.inventory}', 
+						 authorID = '${req.body.authorID}'
+						 WHERE ISBN = '${req.body.isbn}';`
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+			});
+	})
+
+router.route('/deletebook/:isbn')
+	.delete(function(req, res){
+		console.log('im in2');
+		console.log(req.params.isbn);
+		var id = Number()
+		var query = `DELETE FROM book WHERE ISBN = '${req.params.isbn}';`
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+			});
+	})
+
+router.route('/createwishlist')
+	.post(function(req, res) {
+		console.log('im in2');
+		var id = Number()
+		var query = `INSERT INTO wishlist VALUES (
+						0,
+					    '${req.body.authorID}',
+					    '${req.body.genre}',
+					    '${req.body.title}',
+					    '${req.body.userID}'
+						);`
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+			});
+	})
 
 // global class variables
 // REGISTER OUR ROUTES -------------------------------

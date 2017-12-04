@@ -21,6 +21,8 @@ inner join author on book.authorID = author.authorID
 inner join returned on book.ISBN = returned.bookID
 where genre = 'mystery' limit 10;
 
+SELECT ID FROM user WHERE name='maxim' LIMIT 1;
+
 
 
 select * from returned where userId = 2;
@@ -90,4 +92,30 @@ WHERE
     
 describe book;
 select * from author;
-select authorID from author where authorName = "J.K. Rowling";
+
+SELECT 
+    *
+FROM
+    book
+        INNER JOIN
+    author ON book.authorID = author.authorID
+WHERE
+    title LIKE '%li';
+
+SELECT 
+    authorID
+FROM
+    author
+WHERE
+    authorName = 'J.K. Rowling';
+    
+select * from user;
+
+UPDATE book 
+SET
+title = ${req.body.title}, 
+publishingDate = ${req.body.publishingDate},
+ genre = ${req.body.genre}, 
+ inventory = ${req.body.inventory}, 
+ authorID = ${req.body.authorID}
+ WHERE ISBN = ${req.body.isbn};
