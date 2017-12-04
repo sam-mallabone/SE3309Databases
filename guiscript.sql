@@ -100,7 +100,7 @@ FROM
         INNER JOIN
     author ON book.authorID = author.authorID
 WHERE
-    title LIKE '%li';
+    title LIKE 'h%';
 
 SELECT 
     authorID
@@ -111,11 +111,32 @@ WHERE
     
 select * from user;
 
-UPDATE book 
-SET
-title = ${req.body.title}, 
-publishingDate = ${req.body.publishingDate},
- genre = ${req.body.genre}, 
- inventory = ${req.body.inventory}, 
- authorID = ${req.body.authorID}
- WHERE ISBN = ${req.body.isbn};
+select * from book;
+INSERT INTO outgoing 
+VALUES 
+(1127, 2, 9780545010221, DATE '2017-09-18', DATE '2017-12-23');
+
+SELECT book.title, author.authorName, book.genre, outgoing.expectedReturnDate
+                                                FROM user
+                                                INNER JOIN outgoing on user.ID = outgoing.userID
+                                                INNER JOIN book on book.ISBN = outgoing.bookID
+                                                INNER JOIN author on author.authorID = book.authorID
+                                                WHERE
+                                                user.ID = 2
+                                                ORDER BY outgoing.expectedReturnDate;
+                                                
+describe wishlist;
+select * from wishlist;
+
+drop table wishlist;
+
+CREATE TABLE wishlist (
+	requestID INT NOT NULL AUTO_INCREMENT,
+    authorID INT,
+    genre VARCHAR(20),
+    title VARCHAR(50),
+    userID INT NOT NULL,
+    PRIMARY KEY (requestID),
+    FOREIGN KEY (userID) REFERENCES user(ID),
+    FOREIGN KEY (authorID) REFERENCES author(authorID)
+);

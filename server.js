@@ -366,11 +366,35 @@ router.route('/createwishlist')
 		var id = Number()
 		var query = `INSERT INTO wishlist VALUES (
 						0,
-					    '${req.body.authorID}',
+					    ${req.body.authorID},
 					    '${req.body.genre}',
 					    '${req.body.title}',
-					    '${req.body.userID}'
+					    ${req.body.userID}
 						);`
+						console.log(query);
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+			});
+	})
+
+router.route('/useroutgoing')
+	.post(function(req, res) {
+		console.log('IM really in please appear');
+		var id = Number()
+		var query = `SELECT book.title, author.authorName, book.genre, outgoing.expectedReturnDate
+						FROM user
+						INNER JOIN outgoing on user.ID = outgoing.userID
+						INNER JOIN book on book.ISBN = outgoing.bookID
+						INNER JOIN author on author.authorID = book.authorID
+						WHERE
+						user.ID = ${req.body.userId}
+						ORDER BY outgoing.expectedReturnDate;`
+						console.log("this is my query", query)
 		conn.query(query, function(err,result,fields){
 			if (err){
 				console.log(err);
