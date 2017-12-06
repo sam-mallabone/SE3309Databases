@@ -146,7 +146,7 @@ delete from returned where borrowID = 0;
 
 SELECT book.title, 
 							author.authorName, 
-							book.genre, AVG(rating),
+							book.genre, AVG(rating)
 						FROM 
 							book 
 								INNER JOIN 
@@ -154,6 +154,6 @@ SELECT book.title,
 								INNER JOIN 
 							returned on returned.bookID = book.ISBN 
 						where
-					        returned.rating>3 AND book.genre = 'fantasy'
+					        returned.rating>3 AND book.genre = 'fiction'
                             GROUP BY book.title
 					        ORDER BY rating DESC LIMIT 10;
