@@ -140,4 +140,20 @@ CREATE TABLE wishlist (
     FOREIGN KEY (authorID) REFERENCES author(authorID)
 );
 
-INSERT INTO returned VALUES (1201, 2, 2004000027991, DATE '2017-09-07', DATE '2017-11-21', DATE '2017-11-21', null)
+INSERT INTO returned VALUES (1204, 2, 1000000032859, DATE '2017-09-07', DATE '2017-11-22', DATE '2017-11-20', null);
+
+delete from returned where borrowID = 0;
+
+SELECT book.title, 
+							author.authorName, 
+							book.genre, AVG(rating),
+						FROM 
+							book 
+								INNER JOIN 
+							author on book.authorID = author.authorID 
+								INNER JOIN 
+							returned on returned.bookID = book.ISBN 
+						where
+					        returned.rating>3 AND book.genre = 'fantasy'
+                            GROUP BY book.title
+					        ORDER BY rating DESC LIMIT 10;

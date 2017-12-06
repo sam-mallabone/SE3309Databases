@@ -237,7 +237,7 @@ router.route('/getPopularBooks')
 		console.log("Get all popular books route");
 		var query = `SELECT book.title, 
 							author.authorName, 
-							book.genre 
+							book.genre, AVG(rating) as Rating
 						FROM 
 							book 
 								INNER JOIN 
@@ -245,7 +245,9 @@ router.route('/getPopularBooks')
 								INNER JOIN 
 							returned on returned.bookID = book.ISBN 
 						where
-					        returned.rating>3 AND book.genre = "${req.body.genre}" LIMIT 10;`;
+					        returned.rating>3 AND book.genre = '${req.body.genre}'
+                            GROUP BY book.title
+					        ORDER BY rating DESC LIMIT 10;`;
 		conn.query(query, function(err,result,fields){
 			if (err){
 				console.log(err);
