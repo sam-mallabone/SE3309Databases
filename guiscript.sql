@@ -21,6 +21,8 @@ inner join author on book.authorID = author.authorID
 inner join returned on book.ISBN = returned.bookID
 where genre = 'mystery' limit 10;
 
+SELECT ID FROM user WHERE name='maxim' LIMIT 1;
+
 
 
 select * from returned where userId = 2;
@@ -90,4 +92,52 @@ WHERE
     
 describe book;
 select * from author;
-select authorID from author where authorName = "J.K. Rowling";
+
+SELECT 
+    *
+FROM
+    book
+        INNER JOIN
+    author ON book.authorID = author.authorID
+WHERE
+    title LIKE 'h%';
+
+SELECT 
+    authorID
+FROM
+    author
+WHERE
+    authorName = 'J.K. Rowling';
+    
+select * from user;
+
+select * from book;
+INSERT INTO outgoing 
+VALUES 
+(1127, 2, 9780545010221, DATE '2017-09-18', DATE '2017-12-23');
+
+SELECT book.title, author.authorName, book.genre, outgoing.expectedReturnDate
+                                                FROM user
+                                                INNER JOIN outgoing on user.ID = outgoing.userID
+                                                INNER JOIN book on book.ISBN = outgoing.bookID
+                                                INNER JOIN author on author.authorID = book.authorID
+                                                WHERE
+                                                user.ID = 2
+                                                ORDER BY outgoing.expectedReturnDate;
+                                                
+describe returned;
+select * from wishlist;
+
+
+CREATE TABLE wishlist (
+	requestID INT NOT NULL AUTO_INCREMENT,
+    authorID INT,
+    genre VARCHAR(20),
+    title VARCHAR(50),
+    userID INT NOT NULL,
+    PRIMARY KEY (requestID),
+    FOREIGN KEY (userID) REFERENCES user(ID),
+    FOREIGN KEY (authorID) REFERENCES author(authorID)
+);
+
+INSERT INTO returned VALUES (1201, 2, 2004000027991, DATE '2017-09-07', DATE '2017-11-21', DATE '2017-11-21', null)
