@@ -16,29 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `payment`
+-- Table structure for table `wishlist`
 --
 
-DROP TABLE IF EXISTS `payment`;
+DROP TABLE IF EXISTS `wishlist`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `payment` (
-  `borrowID` int(11) NOT NULL,
-  `amountOwed` decimal(6,2) DEFAULT NULL,
-  `isPaid` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`borrowID`),
-  CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`borrowID`) REFERENCES `returned` (`borrowID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `wishlist` (
+  `requestID` int(11) NOT NULL AUTO_INCREMENT,
+  `authorID` int(11) DEFAULT NULL,
+  `genre` varchar(20) DEFAULT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `userID` int(11) NOT NULL,
+  PRIMARY KEY (`requestID`),
+  KEY `userID` (`userID`),
+  KEY `authorID` (`authorID`),
+  CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`ID`),
+  CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`authorID`) REFERENCES `author` (`authorID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `payment`
+-- Dumping data for table `wishlist`
 --
 
-LOCK TABLES `payment` WRITE;
-/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (41,6.50,1),(42,1.50,0),(44,8.50,1),(45,4.50,0),(46,7.50,1),(47,3.00,0),(48,6.50,0),(49,5.50,1),(50,2.00,1),(51,3.00,0),(52,0.00,0),(53,4.50,1),(54,6.50,0),(55,7.00,1),(56,6.50,0),(57,4.50,1),(58,7.50,1),(59,2.50,1),(60,0.00,0),(61,3.00,1),(62,2.00,1),(63,0.50,0),(64,2.00,0),(65,3.00,1),(66,3.50,0),(67,3.50,0),(68,0.00,0),(69,0.50,0),(70,3.00,0),(71,7.00,0),(72,3.00,1),(73,5.00,0),(74,0.50,1),(75,2.50,0),(76,7.00,0),(77,0.50,0),(78,4.50,0),(79,4.50,1);
-/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+LOCK TABLES `wishlist` WRITE;
+/*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
+INSERT INTO `wishlist` VALUES (1,1,'fantasy','Harry Potter and the Philosophers Stone',2),(2,1,'Fantasy Fiction','Harry Potter and the Chamber of Secrets',2);
+/*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-27 13:30:22
+-- Dump completed on 2017-12-06 10:39:44
