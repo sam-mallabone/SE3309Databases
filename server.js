@@ -78,7 +78,7 @@ router.route('/allwishlist')
 
 router.route('/getUserId')
 	.post(function(req, res){
-		console.log(req.body.name);
+		console.log("get user ID");
 		var query = "SELECT ID FROM user WHERE name='" + req.body.name + "' LIMIT 1;"
 		console.log(query)
 		conn.query(query, function(err, result, fields){
@@ -87,14 +87,14 @@ router.route('/getUserId')
 				return;
 			}
 
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 		})
 	})
 
 router.route('/getLibrarianId')
 	.post(function(req, res){
-		console.log(req.body.name);
+		console.log("Get Librarian by ID");
 		var query = "SELECT staffID FROM employee WHERE name='" + req.body.name + "' LIMIT 1;"
 		console.log(query)
 		conn.query(query, function(err, result, fields){
@@ -103,7 +103,7 @@ router.route('/getLibrarianId')
 				return;
 			}
 
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 		})
 	})
@@ -129,7 +129,7 @@ router.route('/moneyowed/:id')
 				return;
 			}
 
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 		})
 	})
@@ -157,14 +157,14 @@ router.route('/inventory/:id')
 				return;
 			}
 
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 		})
 	})
 
 router.route('/genreCount')
 	.get(function(req, res){
-		console.log('genre');
+		console.log('route for number of books in outgoing per genre');
 		var query = `SELECT 
 						    genre, COUNT(genre) as cnt
 						FROM
@@ -187,7 +187,7 @@ router.route('/genreCount')
 
 router.route('/overdueUsers')
 	.get(function(req, res){
-		console.log('overdue');
+		console.log('get all overdue users');
 		var query = `SELECT 
 						    user.ID,
 						    user.name,
@@ -206,14 +206,14 @@ router.route('/overdueUsers')
 				return;
 			}
 
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 		})
 	})
 
 router.route('/authorID')
 	.post(function(req, res){
-		console.log('author ID');
+		console.log('get authr by authorID');
 		var query = `SELECT 
 						    authorID
 						FROM
@@ -227,15 +227,14 @@ router.route('/authorID')
 				return;
 			}
 
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 		})
 	});
 router.route('/getPopularBooks')
 	
 	.post(function(req,res){
-		console.log(req.body.genre);
-		console.log("am i working");
+		console.log("Get all popular books route");
 		var query = `SELECT book.title, 
 							author.authorName, 
 							book.genre 
@@ -247,19 +246,19 @@ router.route('/getPopularBooks')
 							returned on returned.bookID = book.ISBN 
 						where
 					        returned.rating>3 AND book.genre = "${req.body.genre}" LIMIT 10;`;
-		console.log(query);
 		conn.query(query, function(err,result,fields){
 			if (err){
 				console.log(err);
 				res.send(err); 
 			}
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 		});
 
 	});
 router.route('/createUser')
 		.post(function(req,res){
+			console.log('create a user route')
 			var query = `INSERT INTO user VALUES(
 				0,
 				"${req.body.name}",
@@ -274,7 +273,7 @@ router.route('/createUser')
 				console.log(err);
 				res.send(err);
 			}
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 			});
 
@@ -282,8 +281,7 @@ router.route('/createUser')
 
 router.route('/searchbooks')
 	.post(function(req, res) {
-		console.log(req.body.title);
-		console.log('searchbooks')
+		console.log('searchbooks route ')
 		var query = `SELECT 
 						    *
 						FROM
@@ -297,7 +295,7 @@ router.route('/searchbooks')
 				console.log(err);
 				res.send(err);
 			}
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 			});
 				
@@ -305,7 +303,7 @@ router.route('/searchbooks')
 
 router.route('/createbook')
 	.post(function(req, res) {
-		console.log('im in');
+		console.log('create book route');
 		var query = `INSERT INTO book VALUES(
 						'${req.body.isbn}',
 					    '${req.body.title}',
@@ -319,14 +317,14 @@ router.route('/createbook')
 				console.log(err);
 				res.send(err);
 			}
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 			});
 	})
 
 router.route('/updatebook')
 	.post(function(req, res){
-		console.log('im in1');
+		console.log('update book route');
 		var query = `UPDATE book 
 						SET
 						title = '${req.body.title}',
@@ -339,31 +337,29 @@ router.route('/updatebook')
 				console.log(err);
 				res.send(err);
 			}
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 			});
 	})
 
 router.route('/deletebook/:isbn')
 	.delete(function(req, res){
-		console.log('im in2');
+		console.log('delete book route');
 		console.log(req.params.isbn);
-		var id = Number()
 		var query = `DELETE FROM book WHERE ISBN = '${req.params.isbn}';`
 		conn.query(query, function(err,result,fields){
 			if (err){
 				console.log(err);
 				res.send(err);
 			}
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 			});
 	})
 
 router.route('/createwishlist')
 	.post(function(req, res) {
-		console.log('im in2');
-		var id = Number()
+		console.log('create wishlist route');
 		var query = `INSERT INTO wishlist VALUES (
 						0,
 					    ${req.body.authorID},
@@ -377,15 +373,14 @@ router.route('/createwishlist')
 				console.log(err);
 				res.send(err);
 			}
-			console.log(result);
+			//console.log(result);
 			res.send(result);
 			});
 	})
 
 router.route('/useroutgoing')
 	.post(function(req, res) {
-		console.log('IM really in please appear');
-		var id = Number()
+		console.log('Outgoing user route');
 		var query = `SELECT book.title, author.authorName, book.genre, outgoing.expectedReturnDate
 						FROM user
 						INNER JOIN outgoing on user.ID = outgoing.userID
@@ -394,7 +389,29 @@ router.route('/useroutgoing')
 						WHERE
 						user.ID = ${req.body.userId}
 						ORDER BY outgoing.expectedReturnDate;`
-						console.log("this is my query", query)
+						
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			//console.log(result);
+			res.send(result);
+			});
+	})
+
+router.route('/searchavailable/:name')
+	.get(function(req, res){
+		console.log("route for searching books that are in stock");
+		var query = `SELECT 
+						    *
+						FROM
+						    book
+						    	INNER JOIN
+    						author ON book.authorID = author.authorID
+						WHERE
+						    title LIKE '${req.params.name}%'
+						AND inventory > 0;`
 		conn.query(query, function(err,result,fields){
 			if (err){
 				console.log(err);
@@ -405,6 +422,79 @@ router.route('/useroutgoing')
 			});
 	})
 
+router.route("/updateinv")
+	.put(function(req, res) {
+		console.log("Update inventory of book");
+		var query = `UPDATE book 
+						SET inventory = inventory-1 
+							WHERE book.ISBN = ${req.body.isbn};`
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+			});
+	})
+
+router.route('/createoutgoing')
+	.post(function(req, res){
+		console.log('create new outgoing');
+		var query = `INSERT INTO outgoing VALUES(
+						0,
+					    ${req.body.userId},
+					    ${req.body.isbn},
+					    CURDATE(),
+					    DATE_ADD(CURDATE(), INTERVAL 3 MONTH)
+					);`
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			console.log(result);
+			res.send(result);
+		});
+	})
+
+router.route('/returned/:user_id')
+	.get(function(req, res) {
+		console.log("get user's returned books")
+		var query = `SELECT returned.borrowID, book.title, author.authorName, book.genre, returned.rating, returned.dateReturned
+						FROM user
+						INNER JOIN returned on user.ID = returned.userID
+						INNER JOIN book on book.ISBN = returned.bookID
+						INNER JOIN author on author.authorID = book.authorID
+						WHERE
+						user.ID = ${req.params.user_id}
+						ORDER BY returned.dateReturned;`
+		conn.query(query, function(err,result,fields){
+			if (err){
+				console.log(err);
+				res.send(err);
+			}
+			//console.log(result);
+			res.send(result);
+		});
+	})
+
+router.route('/ratebook')
+	.put(function(req, res){
+		console.log('rate a book');
+		var query = `UPDATE returned 
+						SET rating = ${req.body.rating}
+								WHERE returned.borrowID = ${req.body.borrowId};`
+
+		conn.query(query, function(err,result,fields){
+				if (err){
+					console.log(err);
+					res.send(err);
+				}
+				//console.log(result);
+				res.send(result);
+			});
+		})
 // global class variables
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

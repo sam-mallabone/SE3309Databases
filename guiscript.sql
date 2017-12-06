@@ -125,10 +125,9 @@ SELECT book.title, author.authorName, book.genre, outgoing.expectedReturnDate
                                                 user.ID = 2
                                                 ORDER BY outgoing.expectedReturnDate;
                                                 
-describe wishlist;
+describe returned;
 select * from wishlist;
 
-drop table wishlist;
 
 CREATE TABLE wishlist (
 	requestID INT NOT NULL AUTO_INCREMENT,
@@ -140,3 +139,5 @@ CREATE TABLE wishlist (
     FOREIGN KEY (userID) REFERENCES user(ID),
     FOREIGN KEY (authorID) REFERENCES author(authorID)
 );
+
+INSERT INTO returned VALUES (1201, 2, 2004000027991, DATE '2017-09-07', DATE '2017-11-21', DATE '2017-11-21', null)
